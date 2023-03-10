@@ -55,3 +55,36 @@ export const insertionSort = (arr: number[]) => {
     }
     return array;
 };
+
+const merge = (arr1: number[], arr2: number[]) => {
+    const res: number[] = [];
+    let i = 0;
+    let j = 0;
+    while (i < arr1.length && j < arr2.length) {
+        if (arr2[j] > arr1[i]) {
+            res.push(arr1[i]);
+            i++;
+        } else {
+            res.push(arr2[j]);
+            j++;
+        }
+    }
+    while (i < arr1.length) {
+        res.push(arr1[i]);
+        i++;
+    }
+    while (j < arr2.length) {
+        res.push(arr2[j]);
+        j++;
+    }
+    return res;
+};
+
+export const mergeSort = (arr: number[]) => {
+    const array = arr.slice();
+    if (array.length <= 1) return arr;
+    const middle = Math.floor(array.length / 2);
+    const left: number[] = mergeSort(array.slice(0, middle));
+    const right: number[] = mergeSort(array.slice(middle));
+    return merge(left, right);
+};
