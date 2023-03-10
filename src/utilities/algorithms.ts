@@ -1,3 +1,8 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
+/* eslint-disable no-await-in-loop */
+
+import VisualizerStyles from "../components/Visualizer/Visualizer.module.scss";
+
 const randomInt = (min: number, max: number) => {
     return Math.floor(Math.random() * (max - min + 1) + min);
 };
@@ -6,22 +11,10 @@ export const generateArray = (size: number, min: number, max: number) => {
     const arr = [];
     for (let i = 0; i < size; i++) {
         arr.push(randomInt(min, max));
+        const bar = document.getElementById(`${i}`)!;
+        bar?.classList.remove(VisualizerStyles.sorted);
     }
     return arr;
-};
-
-export const bubbleSort = (arr: number[]) => {
-    const array = arr.slice();
-    for (let i = array.length; i > 0; i--) {
-        for (let j = 0; j < i - 1; j++) {
-            if (array[j] > array[j + 1]) {
-                const temp = array[j];
-                array[j] = array[j + 1];
-                array[j + 1] = temp;
-            }
-        }
-    }
-    return array;
 };
 
 export const selectionSort = (arr: number[]) => {
@@ -103,4 +96,47 @@ export const quickSort = (arr: number[]): number[] => {
         }
     }
     return quickSort(left).concat(pivot, quickSort(right));
+};
+
+const timeout = 1;
+
+const sleep = () => {
+    // eslint-disable-next-line no-promise-executor-return
+    return new Promise((resolve) => setTimeout(resolve, timeout));
+};
+
+const sortedAnimation = async (arr: number[]) => {
+    for (let i = 0; i < arr.length; i++) {
+        const bar = document.getElementById(`${i}`)!;
+        bar.classList.add(VisualizerStyles.sorted);
+        await sleep();
+    }
+};
+
+export const bubbleSort = async (arr: number[], setState: (arr: number[]) => void) => {
+    const array = arr.slice();
+    const start = performance.now();
+    for (let i = array.length; i > 0; i--) {
+        for (let j = 0; j < i - 1; j++) {
+            if (array[j] > array[j + 1]) {
+                const temp = array[j];
+                array[j] = array[j + 1];
+                array[j + 1] = temp;
+                setState([...array]);
+
+                const bar1 = document.getElementById(`${j}`)!;
+                const bar2 = document.getElementById(`${j + 1}`)!;
+                bar1.classList.add(VisualizerStyles.comparing);
+                bar2.classList.add(VisualizerStyles.sorting);
+
+                await sleep();
+
+                bar1.classList.remove(VisualizerStyles.comparing);
+                bar2.classList.remove(VisualizerStyles.sorting);
+            }
+        }
+    }
+    sortedAnimation(array);
+    const end = performance.now();
+    console.log(`Execution time: ${end - start} ms`);
 };

@@ -8,19 +8,41 @@
         padding: 2rem;
     }
 
-    padding: 2rem 5rem;
+    padding: 2rem 10rem;
 }
 
 .visualizer {
     @include flex($direction: row, $align: end, $gap: 4px);
 
     overflow-x: auto;
+    width: 100%;
     max-width: 100%;
     height: 550px;
 }
 
 .element {
+    flex: 1 0 2px;
+
+    width: 2px;
+
+    background-color: var(--bars);
     border: 1px solid var(--bars);
+    border-radius: 2px 2px 0 0;
+
+    &.sorted {
+        background-color: var(--green);
+        border-color: var(--green);
+    }
+
+    &.sorting {
+        background-color: var(--blue);
+        border-color: var(--blue);
+    }
+
+    &.comparing {
+        background-color: var(--red);
+        border-color: var(--red);
+    }
 }
 
 .buttons {
