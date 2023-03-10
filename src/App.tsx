@@ -1,7 +1,8 @@
+import Visualizer from "./components/Visualizer/Visualizer";
 import "./scss/styles.scss";
 
 function App() {
-    return <div className="app">Sorting Visualizer</div>;
+    return <Visualizer />;
 }
 
 export default App;
