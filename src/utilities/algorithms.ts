@@ -17,38 +17,6 @@ export const generateArray = (size: number, min: number, max: number) => {
     return arr;
 };
 
-export const selectionSort = (arr: number[]) => {
-    const array = arr.slice();
-    for (let i = 0; i < array.length; i++) {
-        let min = i;
-        for (let j = i + 1; j < array.length; j++) {
-            if (array[j] < array[min]) {
-                min = j;
-            }
-        }
-        if (i !== min) {
-            const temp = array[i];
-            array[i] = array[min];
-            array[min] = temp;
-        }
-    }
-    return array;
-};
-
-export const insertionSort = (arr: number[]) => {
-    const array = arr.slice();
-    for (let i = 1; i < array.length; i++) {
-        const current = array[i];
-        for (let j = i - 1; j >= 0; j--) {
-            if (array[j] > current) {
-                array[j + 1] = array[j];
-                array[j] = current;
-            }
-        }
-    }
-    return array;
-};
-
 const merge = (arr1: number[], arr2: number[]) => {
     const res: number[] = [];
     let i = 0;
@@ -113,6 +81,18 @@ const sortedAnimation = async (arr: number[]) => {
     }
 };
 
+const sortingAnimation = async (comparing: string | number, sorting: string | number) => {
+    const bar1 = document.getElementById(`${comparing}`)!;
+    const bar2 = document.getElementById(`${sorting}`)!;
+    bar1.classList.add(VisualizerStyles.comparing);
+    bar2.classList.add(VisualizerStyles.sorting);
+
+    await sleep();
+
+    bar1.classList.remove(VisualizerStyles.comparing);
+    bar2.classList.remove(VisualizerStyles.sorting);
+};
+
 export const bubbleSort = async (arr: number[], setState: (arr: number[]) => void) => {
     const array = arr.slice();
     const start = performance.now();
@@ -124,15 +104,57 @@ export const bubbleSort = async (arr: number[], setState: (arr: number[]) => voi
                 array[j + 1] = temp;
                 setState([...array]);
 
-                const bar1 = document.getElementById(`${j}`)!;
-                const bar2 = document.getElementById(`${j + 1}`)!;
-                bar1.classList.add(VisualizerStyles.comparing);
-                bar2.classList.add(VisualizerStyles.sorting);
+                await sortingAnimation(j, j + 1);
+            }
+        }
+    }
+    sortedAnimation(array);
+    const end = performance.now();
+    console.log(`Execution time: ${end - start} ms`);
+};
 
-                await sleep();
+export const selectionSort = async (arr: number[], setState: (arr: number[]) => void) => {
+    const array = arr.slice();
+    const start = performance.now();
+    for (let i = 0; i < array.length; i++) {
+        let min = i;
+        for (let j = i + 1; j < array.length; j++) {
+            if (array[j] < array[min]) {
+                min = j;
 
-                bar1.classList.remove(VisualizerStyles.comparing);
-                bar2.classList.remove(VisualizerStyles.sorting);
+                setState([...array]);
+
+                await sortingAnimation(min, j);
+            }
+        }
+        if (i !== min) {
+            const temp = array[i];
+            array[i] = array[min];
+            array[min] = temp;
+
+            setState([...array]);
+
+            await sortingAnimation(min, i);
+        }
+    }
+    sortedAnimation(array);
+    const end = performance.now();
+    console.log(`Execution time: ${end - start} ms`);
+};
+
+export const insertionSort = async (arr: number[], setState: (arr: number[]) => void) => {
+    const array = arr.slice();
+    const start = performance.now();
+    for (let i = 1; i < array.length; i++) {
+        const current = array[i];
+        for (let j = i - 1; j >= 0; j--) {
+            if (array[j] > current) {
+                array[j + 1] = array[j];
+                array[j] = current;
+
+                setState([...array]);
+
+                await sortingAnimation(j, j + 1);
             }
         }
     }

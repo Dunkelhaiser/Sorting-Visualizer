@@ -10,26 +10,6 @@ const Visualizer: React.FC = () => {
         setData(generateArray(100, 5, 1000));
     }, []);
 
-    const selectionSortHandler = (arr: number[]) => {
-        const start = performance.now();
-
-        const sortedArr = selectionSort(arr);
-        console.log(sortedArr);
-        setData([...sortedArr]);
-
-        const end = performance.now();
-        console.log(`Execution time: ${end - start} ms`);
-    };
-    const insertionSortHandler = (arr: number[]) => {
-        const start = performance.now();
-
-        const sortedArr = insertionSort(arr);
-        console.log(sortedArr);
-        setData([...sortedArr]);
-
-        const end = performance.now();
-        console.log(`Execution time: ${end - start} ms`);
-    };
     const mergeSortHandler = (arr: number[]) => {
         const start = performance.now();
 
@@ -61,8 +41,8 @@ const Visualizer: React.FC = () => {
             <div className={VisualizerStyles.buttons}>
                 <Button title="Generate New Array" onClick={() => setData(generateArray(100, 5, 1000))} />
                 <Button title="Bubble Sort" onClick={() => bubbleSort(data, setData)} />
-                <Button title="Selection Sort" onClick={() => selectionSortHandler(data)} />
-                <Button title="Insertion Sort" onClick={() => insertionSortHandler(data)} />
+                <Button title="Selection Sort" onClick={() => selectionSort(data, setData)} />
+                <Button title="Insertion Sort" onClick={() => insertionSort(data, setData)} />
                 <Button title="Merge Sort" onClick={() => mergeSortHandler(data)} />
                 <Button title="Quick Sort" onClick={() => quickSortHandler(data)} />
             </div>
