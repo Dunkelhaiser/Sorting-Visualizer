@@ -1,6 +1,18 @@
+@use "../../scss/abstract/mixins" as *;
+
+.main {
+    @include flex($gap: 2rem, $align: center);
+
+    min-height: 100vh;
+    padding: 2rem 5rem;
+}
+
 .visualizer {
+    @include flex($direction: row, $align: end);
+
+    position: relative;
     width: fit-content;
-    margin: 0 auto;
+    height: 500px;
     white-space: nowrap;
 }
 

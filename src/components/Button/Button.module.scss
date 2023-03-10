@@ -1,0 +1,20 @@
+.button {
+    padding: 1em 1.5em;
+
+    font-weight: bold;
+
+    background-color: var(--element);
+    border: none;
+    border-radius: 0.5em;
+
+    transition: var(--hover);
+
+    &:hover,
+    &:focus-visible {
+        background-color: var(--element-hover);
+    }
+
+    &:active {
+        background-color: var(--element-active);
+    }
+}
