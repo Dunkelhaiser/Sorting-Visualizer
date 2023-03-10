@@ -23,3 +23,21 @@ export const bubbleSort = (arr: number[]) => {
     }
     return array;
 };
+
+export const selectionSort = (arr: number[]) => {
+    const array = arr.slice();
+    for (let i = 0; i < array.length; i++) {
+        let min = i;
+        for (let j = i + 1; j < array.length; j++) {
+            if (array[j] < array[min]) {
+                min = j;
+            }
+        }
+        if (i !== min) {
+            const temp = array[i];
+            array[i] = array[min];
+            array[min] = temp;
+        }
+    }
+    return array;
+};
