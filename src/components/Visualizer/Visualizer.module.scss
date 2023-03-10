@@ -1,27 +1,36 @@
 @use "../../scss/abstract/mixins" as *;
+@use "../../scss/abstract/screen-queries" as *;
 
 .main {
     @include flex($gap: 2rem, $align: center);
+
+    @include respond-phone {
+        padding: 2rem;
+    }
 
     padding: 2rem 5rem;
 }
 
 .visualizer {
-    @include flex($direction: row, $align: end);
+    @include flex($direction: row, $align: end, $gap: 4px);
 
-    position: relative;
-    width: fit-content;
-    height: 500px;
-    white-space: nowrap;
+    overflow-x: auto;
+    max-width: 100%;
+    height: 550px;
 }
 
 .element {
-    display: inline-block;
-    width: 2px;
-    margin: 0 2px;
-    background-color: var(--bars);
+    border: 1px solid var(--bars);
 }
 
 .buttons {
     @include flex($direction: row, $gap: 2rem);
+
+    @include respond-tablet-landscape {
+        flex-direction: column;
+
+        button {
+            width: 100%;
+        }
+    }
 }

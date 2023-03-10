@@ -51,3 +51,18 @@ select:-webkit-autofill:focus {
     box-shadow: 0 0 0 1000px transparent inset;
     transition: background-color 5000s ease-in-out 0s;
 }
+
+::-webkit-scrollbar {
+    width: 7px;
+    height: 7px;
+}
+
+::-webkit-scrollbar-track {
+    background-color: var(--foreground);
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: var(--bars);
+    background-clip: content-box;
+    border-radius: 0.5em;
+}

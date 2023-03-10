@@ -86,3 +86,21 @@ export const mergeSort = (arr: number[]) => {
     const right: number[] = mergeSort(array.slice(middle));
     return merge(left, right);
 };
+
+export const quickSort = (arr: number[]): number[] => {
+    const array = arr.slice();
+    if (array.length <= 1) {
+        return array;
+    }
+    const pivot = array[0];
+    const left: number[] = [];
+    const right: number[] = [];
+    for (let i = 1; i < array.length; i++) {
+        if (array[i] < pivot) {
+            left.push(array[i]);
+        } else {
+            right.push(array[i]);
+        }
+    }
+    return quickSort(left).concat(pivot, quickSort(right));
+};
