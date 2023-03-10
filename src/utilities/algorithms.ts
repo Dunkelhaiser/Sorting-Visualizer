@@ -69,20 +69,18 @@ const merge = (arr1: number[], arr2: number[]) => {
             j++;
         }
     }
-    while (i < arr1.length) {
+    for (; i < arr1.length; i++) {
         res.push(arr1[i]);
-        i++;
     }
-    while (j < arr2.length) {
+    for (; j < arr2.length; j++) {
         res.push(arr2[j]);
-        j++;
     }
     return res;
 };
 
 export const mergeSort = (arr: number[]) => {
     const array = arr.slice();
-    if (array.length <= 1) return arr;
+    if (array.length <= 1) return array;
     const middle = Math.floor(array.length / 2);
     const left: number[] = mergeSort(array.slice(0, middle));
     const right: number[] = mergeSort(array.slice(middle));
