@@ -68,6 +68,13 @@ export const quickSort = (arr: number[]): number[] => {
 
 const timeout = 1;
 
+export const timer = async (func: () => Promise<void>) => {
+    const start = performance.now();
+    await func();
+    const end = performance.now();
+    console.log(`Execution time: ${end - start} ms`);
+};
+
 const sleep = () => {
     // eslint-disable-next-line no-promise-executor-return
     return new Promise((resolve) => setTimeout(resolve, timeout));
@@ -95,13 +102,13 @@ const sortingAnimation = async (comparing: string | number, sorting: string | nu
 
 export const bubbleSort = async (arr: number[], setState: (arr: number[]) => void) => {
     const array = arr.slice();
-    const start = performance.now();
     for (let i = array.length; i > 0; i--) {
         for (let j = 0; j < i - 1; j++) {
             if (array[j] > array[j + 1]) {
                 const temp = array[j];
                 array[j] = array[j + 1];
                 array[j + 1] = temp;
+
                 setState([...array]);
 
                 await sortingAnimation(j, j + 1);
@@ -109,13 +116,10 @@ export const bubbleSort = async (arr: number[], setState: (arr: number[]) => voi
         }
     }
     sortedAnimation(array);
-    const end = performance.now();
-    console.log(`Execution time: ${end - start} ms`);
 };
 
 export const selectionSort = async (arr: number[], setState: (arr: number[]) => void) => {
     const array = arr.slice();
-    const start = performance.now();
     for (let i = 0; i < array.length; i++) {
         let min = i;
         for (let j = i + 1; j < array.length; j++) {
@@ -138,13 +142,10 @@ export const selectionSort = async (arr: number[], setState: (arr: number[]) => 
         }
     }
     sortedAnimation(array);
-    const end = performance.now();
-    console.log(`Execution time: ${end - start} ms`);
 };
 
 export const insertionSort = async (arr: number[], setState: (arr: number[]) => void) => {
     const array = arr.slice();
-    const start = performance.now();
     for (let i = 1; i < array.length; i++) {
         const current = array[i];
         for (let j = i - 1; j >= 0; j--) {
@@ -159,6 +160,4 @@ export const insertionSort = async (arr: number[], setState: (arr: number[]) => 
         }
     }
     sortedAnimation(array);
-    const end = performance.now();
-    console.log(`Execution time: ${end - start} ms`);
 };
