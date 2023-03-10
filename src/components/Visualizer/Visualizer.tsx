@@ -1,26 +1,26 @@
 import { useEffect, useState } from "react";
 import { v4 as uuid } from "uuid";
 import Button from "../Button/Button";
+import { generateArray, bubbleSort } from "../../utilities/algorithms";
 import VisualizerStyles from "./Visualizer.module.scss";
 
 const Visualizer: React.FC = () => {
     const [data, setData] = useState<number[]>([]);
 
-    const randomInt = (min: number, max: number) => {
-        return Math.floor(Math.random() * (max - min + 1) + min);
-    };
-
-    const generateArray = () => {
-        const arr = [];
-        for (let i = 0; i < 100; i++) {
-            arr.push(randomInt(5, 1000));
-        }
-        return arr;
-    };
-
     useEffect(() => {
-        setData(generateArray());
+        setData(generateArray(100, 5, 1000));
     }, []);
+
+    const bubbleSortHandler = (arr: number[]) => {
+        const start = performance.now();
+
+        const sortedArr = bubbleSort(arr);
+        console.log(sortedArr);
+        setData([...sortedArr]);
+
+        const end = performance.now();
+        console.log(`Execution time: ${end - start} ms`);
+    };
     return (
         <main className={VisualizerStyles.main}>
             <section className={VisualizerStyles.visualizer}>
@@ -28,7 +28,10 @@ const Visualizer: React.FC = () => {
                     <div key={uuid()} className={VisualizerStyles.element} style={{ height: `${value / 2}px` }} />
                 ))}
             </section>
-            <Button title="Generate New Array" onClick={() => setData(generateArray)} />
+            <div className={VisualizerStyles.buttons}>
+                <Button title="Generate New Array" onClick={() => setData(generateArray(10000, 5, 1000))} />
+                <Button title="Bubble Sort" onClick={() => bubbleSortHandler(data)} />
+            </div>
         </main>
     );
 };

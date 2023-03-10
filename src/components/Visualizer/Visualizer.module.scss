@@ -3,7 +3,6 @@
 .main {
     @include flex($gap: 2rem, $align: center);
 
-    min-height: 100vh;
     padding: 2rem 5rem;
 }
 
@@ -21,4 +20,8 @@
     width: 2px;
     margin: 0 2px;
     background-color: var(--bars);
+}
+
+.buttons {
+    @include flex($direction: row, $gap: 2rem);
 }
