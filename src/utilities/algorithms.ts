@@ -41,3 +41,17 @@ export const selectionSort = (arr: number[]) => {
     }
     return array;
 };
+
+export const insertionSort = (arr: number[]) => {
+    const array = arr.slice();
+    for (let i = 1; i < array.length; i++) {
+        const current = array[i];
+        for (let j = i - 1; j >= 0; j--) {
+            if (array[j] > current) {
+                array[j + 1] = array[j];
+                array[j] = current;
+            }
+        }
+    }
+    return array;
+};
