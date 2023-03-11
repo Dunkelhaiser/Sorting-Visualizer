@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
 import Button from "../Button/Button";
-import { generateArray, bubbleSort, insertionSort, selectionSort, mergeSort, quickSort } from "../../utilities/algorithms";
+import { generateArray, bubbleSort, insertionSort, selectionSort, mergeSort, quickSort, ownArray } from "../../utilities/algorithms";
 import VisualizerStyles from "./Visualizer.module.scss";
+import Input from "../Input/Input";
 
 const Visualizer: React.FC = () => {
     const [data, setData] = useState<number[]>([]);
+    const [input, setInput] = useState("");
 
     useEffect(() => {
         setData(generateArray(100, 5, 1000));
@@ -25,7 +27,13 @@ const Visualizer: React.FC = () => {
                 </div>
             ))} */}
             <div className={VisualizerStyles.buttons}>
-                <Button title="Generate New Array" onClick={() => setData(generateArray(100, 5, 1000))} />
+                <Input
+                    placeholder="Enter your array..."
+                    value={input}
+                    onChange={(e: React.FormEvent<HTMLInputElement>) => setInput(e.currentTarget.value)}
+                />
+                <Button title="Own Array" onClick={() => setData(ownArray(input))} />
+                <Button title="Randomize Array" onClick={() => setData(generateArray(100, 5, 1000))} />
                 <Button title="Bubble Sort" onClick={() => bubbleSort(data, setData)} />
                 <Button title="Selection Sort" onClick={() => selectionSort(data, setData)} />
                 <Button title="Insertion Sort" onClick={() => insertionSort(data, setData)} />

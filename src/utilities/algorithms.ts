@@ -16,6 +16,18 @@ export const generateArray = (size: number, min: number, max: number) => {
     return arr;
 };
 
+export const ownArray = (str: string) => {
+    const array = [];
+    const substrings = str.split(/\D+/);
+    for (let i = 0; i < substrings.length; i++) {
+        const num = Number(substrings[i]);
+        const bar = document.getElementById(`${i}`);
+        bar?.classList.remove(VisualizerStyles.sorted);
+        array.push(num);
+    }
+    return array;
+};
+
 const timeout = 1;
 
 export const timer = async (func: () => Promise<void>) => {
