@@ -23,4 +23,4 @@ This app allows you to sort an array( random or your own ) using any of five sor
 
 ### Links
 
--   Live Site URL: [Netlify](https://smug-shortly.netlify.app)
+-   Live Site URL: [Netlify](https://smug-sorting-visualizer.netlify.app)
