@@ -65,65 +65,71 @@ const sortingAnimation = async (comparing: string | number, sorting: string | nu
 };
 
 export const bubbleSort = async (arr: number[], setState: (arr: number[]) => void) => {
-    const array = arr.slice();
-    for (let i = array.length; i > 0; i--) {
-        for (let j = 0; j < i - 1; j++) {
-            if (array[j] > array[j + 1]) {
-                const temp = array[j];
-                array[j] = array[j + 1];
-                array[j + 1] = temp;
+    await timer(async () => {
+        const array = arr.slice();
+        for (let i = array.length; i > 0; i--) {
+            for (let j = 0; j < i - 1; j++) {
+                if (array[j] > array[j + 1]) {
+                    const temp = array[j];
+                    array[j] = array[j + 1];
+                    array[j + 1] = temp;
 
-                setState([...array]);
+                    setState([...array]);
 
-                await sortingAnimation(j, j + 1);
+                    await sortingAnimation(j, j + 1);
+                }
             }
         }
-    }
-    sortedAnimation(array);
+        sortedAnimation(array);
+    });
 };
 
 export const selectionSort = async (arr: number[], setState: (arr: number[]) => void) => {
-    const array = arr.slice();
-    for (let i = 0; i < array.length; i++) {
-        let min = i;
-        for (let j = i + 1; j < array.length; j++) {
-            if (array[j] < array[min]) {
-                min = j;
+    await timer(async () => {
+        const array = arr.slice();
+        for (let i = 0; i < array.length; i++) {
+            let min = i;
+            for (let j = i + 1; j < array.length; j++) {
+                if (array[j] < array[min]) {
+                    min = j;
+
+                    setState([...array]);
+
+                    await sortingAnimation(min, j);
+                }
+            }
+            if (i !== min) {
+                const temp = array[i];
+                array[i] = array[min];
+                array[min] = temp;
 
                 setState([...array]);
 
-                await sortingAnimation(min, j);
+                await sortingAnimation(min, i);
             }
         }
-        if (i !== min) {
-            const temp = array[i];
-            array[i] = array[min];
-            array[min] = temp;
-
-            setState([...array]);
-
-            await sortingAnimation(min, i);
-        }
-    }
-    sortedAnimation(array);
+        sortedAnimation(array);
+    });
 };
 
 export const insertionSort = async (arr: number[], setState: (arr: number[]) => void) => {
-    const array = arr.slice();
-    for (let i = 1; i < array.length; i++) {
-        const current = array[i];
-        for (let j = i - 1; j >= 0; j--) {
-            if (array[j] > current) {
-                array[j + 1] = array[j];
-                array[j] = current;
+    await timer(async () => {
+        const array = arr.slice();
+        for (let i = 1; i < array.length; i++) {
+            const current = array[i];
+            for (let j = i - 1; j >= 0; j--) {
+                if (array[j] > current) {
+                    array[j + 1] = array[j];
+                    array[j] = current;
 
-                setState([...array]);
+                    setState([...array]);
 
-                await sortingAnimation(j, j + 1);
+                    await sortingAnimation(j, j + 1);
+                }
             }
         }
-    }
-    sortedAnimation(array);
+        sortedAnimation(array);
+    });
 };
 
 const merge = async (arr: number[], first: number, middle: number, last: number, setState: (arr: number[]) => void) => {
@@ -168,20 +174,22 @@ const sort = async (arr: number[], first: number, last: number, setState: (arr: 
 };
 
 export const mergeSort = async (arr: number[], setState: (arr: number[]) => void) => {
-    const array = arr.slice();
-    let isSorted = true;
-    for (let i = 1; i < array.length; i++) {
-        if (array[i] < array[i - 1]) {
-            isSorted = false;
-            break;
+    await timer(async () => {
+        const array = arr.slice();
+        let isSorted = true;
+        for (let i = 1; i < array.length; i++) {
+            if (array[i] < array[i - 1]) {
+                isSorted = false;
+                break;
+            }
         }
-    }
-    if (isSorted) {
+        if (isSorted) {
+            sortedAnimation(array);
+            return;
+        }
+        await sort(array, 0, array.length - 1, setState);
         sortedAnimation(array);
-        return;
-    }
-    await sort(array, 0, array.length - 1, setState);
-    sortedAnimation(array);
+    });
 };
 
 const partition = async (arr: number[], first: number, last: number, setState: (arr: number[]) => void) => {
@@ -214,18 +222,20 @@ const sortQuick = async (arr: number[], first: number, last: number, setState: (
 };
 
 export const quickSort = async (arr: number[], setState: (arr: number[]) => void) => {
-    const array = arr.slice();
-    let isSorted = true;
-    for (let i = 1; i < array.length; i++) {
-        if (array[i] < array[i - 1]) {
-            isSorted = false;
-            break;
+    await timer(async () => {
+        const array = arr.slice();
+        let isSorted = true;
+        for (let i = 1; i < array.length; i++) {
+            if (array[i] < array[i - 1]) {
+                isSorted = false;
+                break;
+            }
         }
-    }
-    if (isSorted) {
+        if (isSorted) {
+            sortedAnimation(array);
+            return;
+        }
+        await sortQuick(array, 0, array.length - 1, setState);
         sortedAnimation(array);
-        return;
-    }
-    await sortQuick(array, 0, array.length - 1, setState);
-    sortedAnimation(array);
+    });
 };

@@ -48,11 +48,17 @@
 .buttons {
     @include flex($direction: row, $gap: 2rem);
 
-    @include respond-tablet-landscape {
+    @include respond-tablet {
         flex-direction: column;
 
-        button {
+        button,
+        select,
+        div {
             width: 100%;
         }
+    }
+
+    &_pair {
+        @include flex($gap: 2rem, $align: stretch);
     }
 }

@@ -3,13 +3,15 @@ import InputStyles from "./Input.module.scss";
 interface Props {
     placeholder: string;
     value: string;
+    type?: string;
     onChange: (e: React.FormEvent<HTMLInputElement>) => void;
 }
 
-const Input: React.FC<Props> = ({ placeholder, onChange, value }) => {
+const Input: React.FC<Props> = ({ placeholder, type = "text", onChange, value }) => {
     return (
         <input
-            type="text"
+            min={5}
+            type={type}
             placeholder={placeholder}
             aria-label={placeholder}
             value={value}
