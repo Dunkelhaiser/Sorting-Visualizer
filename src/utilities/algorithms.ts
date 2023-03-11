@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-non-null-assertion */
 /* eslint-disable no-await-in-loop */
 
 import VisualizerStyles from "../components/Visualizer/Visualizer.module.scss";
@@ -11,41 +10,10 @@ export const generateArray = (size: number, min: number, max: number) => {
     const arr = [];
     for (let i = 0; i < size; i++) {
         arr.push(randomInt(min, max));
-        const bar = document.getElementById(`${i}`)!;
+        const bar = document.getElementById(`${i}`);
         bar?.classList.remove(VisualizerStyles.sorted);
     }
     return arr;
-};
-
-const merge = (arr1: number[], arr2: number[]) => {
-    const res: number[] = [];
-    let i = 0;
-    let j = 0;
-    while (i < arr1.length && j < arr2.length) {
-        if (arr2[j] > arr1[i]) {
-            res.push(arr1[i]);
-            i++;
-        } else {
-            res.push(arr2[j]);
-            j++;
-        }
-    }
-    for (; i < arr1.length; i++) {
-        res.push(arr1[i]);
-    }
-    for (; j < arr2.length; j++) {
-        res.push(arr2[j]);
-    }
-    return res;
-};
-
-export const mergeSort = (arr: number[]) => {
-    const array = arr.slice();
-    if (array.length <= 1) return array;
-    const middle = Math.floor(array.length / 2);
-    const left: number[] = mergeSort(array.slice(0, middle));
-    const right: number[] = mergeSort(array.slice(middle));
-    return merge(left, right);
 };
 
 export const quickSort = (arr: number[]): number[] => {
@@ -82,22 +50,24 @@ const sleep = () => {
 
 const sortedAnimation = async (arr: number[]) => {
     for (let i = 0; i < arr.length; i++) {
-        const bar = document.getElementById(`${i}`)!;
-        bar.classList.add(VisualizerStyles.sorted);
+        const bar = document.getElementById(`${i}`);
+        bar?.classList.add(VisualizerStyles.sorted);
         await sleep();
     }
 };
 
 const sortingAnimation = async (comparing: string | number, sorting: string | number) => {
-    const bar1 = document.getElementById(`${comparing}`)!;
-    const bar2 = document.getElementById(`${sorting}`)!;
-    bar1.classList.add(VisualizerStyles.comparing);
-    bar2.classList.add(VisualizerStyles.sorting);
+    const bar1 = document.getElementById(`${comparing}`);
+    const bar2 = document.getElementById(`${sorting}`);
+    if (bar1 && bar2) {
+        bar1.classList.add(VisualizerStyles.comparing);
+        bar2.classList.add(VisualizerStyles.sorting);
 
-    await sleep();
+        await sleep();
 
-    bar1.classList.remove(VisualizerStyles.comparing);
-    bar2.classList.remove(VisualizerStyles.sorting);
+        bar1.classList.remove(VisualizerStyles.comparing);
+        bar2.classList.remove(VisualizerStyles.sorting);
+    }
 };
 
 export const bubbleSort = async (arr: number[], setState: (arr: number[]) => void) => {
@@ -159,5 +129,63 @@ export const insertionSort = async (arr: number[], setState: (arr: number[]) => 
             }
         }
     }
+    sortedAnimation(array);
+};
+
+const merge = async (arr: number[], first: number, middle: number, last: number, setState: (arr: number[]) => void) => {
+    const res: number[] = [];
+    let i = first;
+    let j = middle + 1;
+
+    for (let k = 0; k < last - first + 1; k++) {
+        if (i <= middle && j <= last) {
+            if (arr[i] < arr[j]) {
+                res[k] = arr[i];
+                i++;
+            } else {
+                res[k] = arr[j];
+                j++;
+            }
+        } else if (i <= middle) {
+            res[k] = arr[i];
+            i++;
+        } else {
+            res[k] = arr[j];
+            j++;
+        }
+
+        await sortingAnimation(i, j);
+    }
+
+    for (let l = first; l <= last; l++) {
+        // eslint-disable-next-line no-param-reassign
+        arr[l] = res[l - first];
+    }
+    setState([...arr]);
+};
+
+const sort = async (arr: number[], first: number, last: number, setState: (arr: number[]) => void) => {
+    if (first < last) {
+        const middle = Math.floor((first + last) / 2);
+        await sort(arr, first, middle, setState);
+        await sort(arr, middle + 1, last, setState);
+        await merge(arr, first, middle, last, setState);
+    }
+};
+
+export const mergeSort = async (arr: number[], setState: (arr: number[]) => void) => {
+    const array = arr.slice();
+    let isSorted = true;
+    for (let i = 1; i < array.length; i++) {
+        if (array[i] < array[i - 1]) {
+            isSorted = false;
+            break;
+        }
+    }
+    if (isSorted) {
+        sortedAnimation(array);
+        return;
+    }
+    await sort(array, 0, array.length - 1, setState);
     sortedAnimation(array);
 };
