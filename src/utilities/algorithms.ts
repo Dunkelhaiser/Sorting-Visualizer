@@ -179,18 +179,13 @@ const partition = async (arr: number[], first: number, last: number, setState: (
     for (let j = first; j < last; j++) {
         if (array[j] < pivot) {
             i++;
-            const temp = array[i];
-            array[i] = array[j];
-            array[j] = temp;
-
+            [array[i], array[j]] = [array[j], array[i]];
             await sortingAnimation(i, j);
             setState([...array]);
         }
     }
 
-    const temp = array[i + 1];
-    array[i + 1] = array[last];
-    array[last] = temp;
+    [array[i + 1], array[last]] = [array[last], array[i + 1]];
 
     await sortingAnimation(i, last);
 
@@ -200,7 +195,6 @@ const partition = async (arr: number[], first: number, last: number, setState: (
 const sortQuick = async (arr: number[], first: number, last: number, setState: (arr: number[]) => void) => {
     if (first < last) {
         const partitionIndex = partition(arr, first, last, setState);
-
         setState([...arr]);
         await sortQuick(arr, first, (await partitionIndex) - 1, setState);
         await sortQuick(arr, (await partitionIndex) + 1, last, setState);
@@ -208,7 +202,7 @@ const sortQuick = async (arr: number[], first: number, last: number, setState: (
 };
 
 export const quickSort = async (arr: number[], setState: (arr: number[]) => void) => {
-    const array = arr;
+    const array = arr.slice();
     let isSorted = true;
     for (let i = 1; i < array.length; i++) {
         if (array[i] < array[i - 1]) {
