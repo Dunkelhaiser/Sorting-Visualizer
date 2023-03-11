@@ -16,24 +16,6 @@ export const generateArray = (size: number, min: number, max: number) => {
     return arr;
 };
 
-export const quickSort = (arr: number[]): number[] => {
-    const array = arr.slice();
-    if (array.length <= 1) {
-        return array;
-    }
-    const pivot = array[0];
-    const left: number[] = [];
-    const right: number[] = [];
-    for (let i = 1; i < array.length; i++) {
-        if (array[i] < pivot) {
-            left.push(array[i]);
-        } else {
-            right.push(array[i]);
-        }
-    }
-    return quickSort(left).concat(pivot, quickSort(right));
-};
-
 const timeout = 1;
 
 export const timer = async (func: () => Promise<void>) => {
@@ -187,5 +169,57 @@ export const mergeSort = async (arr: number[], setState: (arr: number[]) => void
         return;
     }
     await sort(array, 0, array.length - 1, setState);
+    sortedAnimation(array);
+};
+
+const partition = async (arr: number[], first: number, last: number, setState: (arr: number[]) => void) => {
+    const array = arr;
+    const pivot = array[last];
+    let i = first - 1;
+    for (let j = first; j < last; j++) {
+        if (array[j] < pivot) {
+            i++;
+            const temp = array[i];
+            array[i] = array[j];
+            array[j] = temp;
+
+            await sortingAnimation(i, j);
+            setState([...array]);
+        }
+    }
+
+    const temp = array[i + 1];
+    array[i + 1] = array[last];
+    array[last] = temp;
+
+    await sortingAnimation(i, last);
+
+    return i + 1;
+};
+
+const sortQuick = async (arr: number[], first: number, last: number, setState: (arr: number[]) => void) => {
+    if (first < last) {
+        const partitionIndex = partition(arr, first, last, setState);
+
+        setState([...arr]);
+        await sortQuick(arr, first, (await partitionIndex) - 1, setState);
+        await sortQuick(arr, (await partitionIndex) + 1, last, setState);
+    }
+};
+
+export const quickSort = async (arr: number[], setState: (arr: number[]) => void) => {
+    const array = arr;
+    let isSorted = true;
+    for (let i = 1; i < array.length; i++) {
+        if (array[i] < array[i - 1]) {
+            isSorted = false;
+            break;
+        }
+    }
+    if (isSorted) {
+        sortedAnimation(array);
+        return;
+    }
+    await sortQuick(array, 0, array.length - 1, setState);
     sortedAnimation(array);
 };

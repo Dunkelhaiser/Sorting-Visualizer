@@ -10,16 +10,6 @@ const Visualizer: React.FC = () => {
         setData(generateArray(100, 5, 1000));
     }, []);
 
-    const quickSortHandler = (arr: number[]) => {
-        const start = performance.now();
-
-        const sortedArr = quickSort(arr);
-        console.log(sortedArr);
-        setData([...sortedArr]);
-
-        const end = performance.now();
-        console.log(`Execution time: ${end - start} ms`);
-    };
     return (
         <main className={VisualizerStyles.main}>
             <section className={VisualizerStyles.visualizer}>
@@ -40,7 +30,7 @@ const Visualizer: React.FC = () => {
                 <Button title="Selection Sort" onClick={() => selectionSort(data, setData)} />
                 <Button title="Insertion Sort" onClick={() => insertionSort(data, setData)} />
                 <Button title="Merge Sort" onClick={() => mergeSort(data, setData)} />
-                <Button title="Quick Sort" onClick={() => quickSortHandler(data)} />
+                <Button title="Quick Sort" onClick={() => quickSort(data, setData)} />
             </div>
         </main>
     );
