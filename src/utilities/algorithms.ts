@@ -1,5 +1,4 @@
 /* eslint-disable no-await-in-loop */
-
 import VisualizerStyles from "../components/Visualizer/Visualizer.module.scss";
 
 const randomInt = (min: number, max: number) => {
